@@ -1,3 +1,4 @@
-# Welcome to your Lovable project
+DBMS Project
+Carbon Footprint Tracking
 
-TODO: Document your project here
+A basic website that tells you how much carbon emission is caused some simple activities
