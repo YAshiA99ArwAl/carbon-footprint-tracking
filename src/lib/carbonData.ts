@@ -124,6 +124,42 @@ export function login(email: string, password: string): Session | null {
   return session;
 }
 
+export type SignupResult = { ok: true; session: Session } | { ok: false; error: string };
+
+export function signup(name: string, email: string, password: string, phone?: string): SignupResult {
+  const cleanEmail = email.trim().toLowerCase();
+  if (!name.trim()) return { ok: false, error: "Name is required" };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return { ok: false, error: "Invalid email address" };
+  if (password.length < 6) return { ok: false, error: "Password must be at least 6 characters" };
+
+  const users = getUsers();
+  if (users.some((u) => u.email.toLowerCase() === cleanEmail)) {
+    return { ok: false, error: "An account with this email already exists" };
+  }
+
+  const role: Role = ADMIN_EMAILS.includes(cleanEmail) ? "Admin" : "User";
+  const newUser: User = {
+    user_id: Math.max(0, ...users.map((u) => u.user_id)) + 1,
+    name: name.trim(),
+    email: cleanEmail,
+    password,
+    role,
+    phone: phone?.trim() || undefined,
+  };
+  users.push(newUser);
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+  const session: Session = {
+    user_id: newUser.user_id,
+    name: newUser.name,
+    email: newUser.email,
+    role,
+    token: btoa(`${newUser.user_id}:${newUser.email}:${Date.now()}`),
+  };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  return { ok: true, session };
+}
+
 export function getSession(): Session | null {
   const raw = localStorage.getItem(SESSION_KEY);
   return raw ? JSON.parse(raw) : null;
