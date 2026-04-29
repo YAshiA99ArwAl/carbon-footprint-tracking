@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
+export default defineConfig({
+  base: '/carbon-footprint-tracking/', 
+  plugins: [react()],
+})
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
