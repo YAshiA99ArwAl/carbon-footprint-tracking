@@ -36,12 +36,12 @@ export default function Login() {
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
     const res = signup(suName, suEmail, suPassword, suPhone);
-    if (!res.ok) {
+    if (res.ok) {
+      toast.success(`Account created — welcome, ${res.session.name}!`);
+      navigate(res.session.role === "Admin" ? "/admin" : "/dashboard");
+    } else {
       toast.error(res.error);
-      return;
     }
-    toast.success(`Account created — welcome, ${res.session.name}!`);
-    navigate(res.session.role === "Admin" ? "/admin" : "/dashboard");
   };
 
   return (
