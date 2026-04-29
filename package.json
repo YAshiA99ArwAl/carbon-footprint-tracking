@@ -1,3 +1,10 @@
+"scripts": {
+  "dev": "vite",
+  "build": "tsc && vite build",
+  "preview": "vite preview",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+}
 {
   "name": "vite_react_shadcn_ts",
   "private": true,
