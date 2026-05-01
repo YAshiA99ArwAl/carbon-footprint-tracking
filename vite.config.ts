@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // 1. ADDED THE BASE PATH HERE
-  base: '/carbon-footprint-tracking/', 
+  base: './', 
   
   server: {
     host: "::",
